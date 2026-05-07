@@ -177,13 +177,13 @@ def login_screen():
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
     _, col, _ = st.columns([2, 1, 2])
     with col:
         st.markdown("""
         <div style="text-align:center;margin-bottom:22px">
-            <div style="font-size:2.2rem;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1">
-                indie.<sup style="font-size:0.9rem;font-weight:700;vertical-align:super;letter-spacing:0"> ®</sup>
+            <div style="font-size:2.4rem;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1">
+                Indie.<sup style="font-size:1.1rem;font-weight:800;vertical-align:super;letter-spacing:0">®</sup>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -194,16 +194,58 @@ def login_screen():
                 clients = get_clients()
                 match = next((c for c in clients if c["username"]==username and c["password"]==password), None)
                 if match and match["id"] == "admin":
-                    # Show bite animation before login
-                    st.markdown("""
-                    <div class="bite-overlay">
-                        <div class="bite-top"></div>
-                        <div class="bite-bottom"></div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    import time
-                    time.sleep(1.2)
                     st.session_state.logged_in = True
+                    st.markdown("""
+                    <script>
+                    (function() {
+                        const overlay = document.createElement('div');
+                        overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;pointer-events:none;overflow:hidden;';
+
+                        const toothW = 60, toothH = 55, count = 12;
+                        const totalW = toothW * count;
+
+                        function makeJaw(isTop) {
+                            const jaw = document.createElement('div');
+                            const side = isTop ? 'top' : 'bottom';
+                            jaw.style.cssText = `position:fixed;${side}:0;left:50%;transform:translateX(-50%);
+                                width:${totalW}px;height:${toothH + 40}px;display:flex;align-items:${isTop?'flex-end':'flex-start'};
+                                transition:${side} 0.45s cubic-bezier(.4,0,.2,1);`;
+                            jaw.style[side] = `-${toothH + 40}px`;
+
+                            for(let i=0;i<count;i++){
+                                const t = document.createElement('div');
+                                const h = toothH - Math.floor(Math.random()*14);
+                                t.style.cssText = `width:${toothW}px;height:${h}px;background:#1a1a1a;
+                                    clip-path:${isTop
+                                        ? 'polygon(8% 0%,92% 0%,85% 100%,50% 85%,15% 100%)'
+                                        : 'polygon(15% 0%,50% 15%,85% 0%,92% 100%,8% 100%)'};
+                                    flex-shrink:0;`;
+                                jaw.appendChild(t);
+                            }
+                            return jaw;
+                        }
+
+                        const top = makeJaw(true);
+                        const bot = makeJaw(false);
+                        overlay.appendChild(top);
+                        overlay.appendChild(bot);
+                        document.body.appendChild(overlay);
+
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                top.style.top = '0px';
+                                bot.style.bottom = '0px';
+                            }, 60);
+                            setTimeout(() => {
+                                top.style.top = `-${toothH+40}px`;
+                                bot.style.bottom = `-${toothH+40}px`;
+                            }, 700);
+                            setTimeout(() => overlay.remove(), 1300);
+                        });
+                    })();
+                    </script>
+                    """, unsafe_allow_html=True)
+                    import time; time.sleep(0.8)
                     st.rerun()
                 elif match:
                     st.error("Solo el usuario Admin puede acceder.")

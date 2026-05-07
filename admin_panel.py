@@ -91,23 +91,35 @@ def login_screen():
     st.markdown(f"""
     <style>
     [data-testid="stAppViewContainer"] {{
-        background-image: url('{BG_URL}');
-        background-size: cover;
-        background-position: center top;
-        background-attachment: fixed;
+        background: linear-gradient(135deg, #f9a8d4 0%, #fde68a 100%);
     }}
-    [data-testid="stAppViewBlockContainer"] {{ background: transparent; }}
+    [data-testid="stAppViewContainer"]::before {{
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url('{BG_URL}');
+        background-size: 55%;
+        background-position: center -60px;
+        background-repeat: no-repeat;
+        opacity: 0.12;
+        z-index: 0;
+    }}
+    [data-testid="stAppViewBlockContainer"] {{ background: transparent; position: relative; z-index: 1; }}
     [data-testid="stHeader"] {{ background: transparent !important; }}
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
     _, col, _ = st.columns([1, 1.1, 1])
     with col:
-        st.markdown("""
-        <div style="text-align:center;margin-bottom:6px">
-            <div style="font-size:1.6rem;font-weight:700;color:#1a1a1a;letter-spacing:-0.5px">indie.</div>
-            <div style="font-size:0.85rem;color:#555;margin-top:3px">Panel de Administración</div>
+        st.markdown(f"""
+        <div style="background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);
+                    border-radius:24px;padding:32px 28px 24px;
+                    box-shadow:0 20px 60px rgba(0,0,0,0.12);
+                    border:1px solid rgba(255,255,255,0.6);
+                    text-align:center;margin-bottom:16px">
+            <img src="{LOGO_URL}" style="height:56px;margin-bottom:10px"/>
+            <div style="font-size:0.8rem;color:#888;letter-spacing:0.5px;text-transform:uppercase">Panel de Administración</div>
         </div>
         """, unsafe_allow_html=True)
         with st.container():

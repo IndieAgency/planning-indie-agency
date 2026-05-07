@@ -13,7 +13,7 @@
   <script>
     const SUPABASE_URL = "https://vxkczsctgsxonxwjrfqe.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4a2N6c2N0Z3N4b254d2pyZnFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMTgyMTQsImV4cCI6MjA5MzY5NDIxNH0.EnlToo9xoR8Vr69QvGcXshZx54Apc9TWcvcCFDio0-c";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -48,7 +48,7 @@ const COLORS=["#6c5ce7","#e17055","#00b894","#0984e3","#fd79a8","#fdcb6e","#a29b
 // ── SUPABASE DB FUNCTIONS ─────────────────────────────────────────────────────
 
 async function loadClients() {
-  const { data, error } = await supabase.from('clients').select('*').order('created_at');
+  const { data, error } = await sbClient.from('clients').select('*').order('created_at');
   if (error) { console.error('loadClients:', error); return []; }
   return data.map(c => ({
     id: c.id, name: c.name, username: c.username,
@@ -59,7 +59,7 @@ async function loadClients() {
 }
 
 async function loadPosts(clientId) {
-  const { data, error } = await supabase.from('posts').select('*').eq('client_id', clientId).order('date');
+  const { data, error } = await sbClient.from('posts').select('*').eq('client_id', clientId).order('date');
   if (error) { console.error('loadPosts:', error); return []; }
   return data.map(p => ({
     id: p.id, platform: p.platform, title: p.title, caption: p.caption || '',
@@ -72,7 +72,7 @@ async function loadPosts(clientId) {
 }
 
 async function loadScripts(clientId) {
-  const { data, error } = await supabase.from('scripts').select('*').eq('client_id', clientId).order('created_at');
+  const { data, error } = await sbClient.from('scripts').select('*').eq('client_id', clientId).order('created_at');
   if (error) { console.error('loadScripts:', error); return []; }
   return data.map(s => ({
     id: s.id, title: s.title, ctype: s.ctype || 'reel',
@@ -94,13 +94,13 @@ async function upsertPost(clientId, post) {
     linked_script_id: post.linkedScriptId || null, date: post.date || '',
     notes: JSON.stringify(post.notes || [])
   };
-  const { error } = await supabase.from('posts').upsert(row);
+  const { error } = await sbClient.from('posts').upsert(row);
   if (error) console.error('upsertPost:', error);
   return row.id;
 }
 
 async function deletePost(postId) {
-  const { error } = await supabase.from('posts').delete().eq('id', String(postId));
+  const { error } = await sbClient.from('posts').delete().eq('id', String(postId));
   if (error) console.error('deletePost:', error);
 }
 
@@ -113,13 +113,13 @@ async function upsertScript(clientId, script) {
     approval_status: script.approvalStatus || 'pendiente',
     date: script.date || '', notes: JSON.stringify(script.notes || [])
   };
-  const { error } = await supabase.from('scripts').upsert(row);
+  const { error } = await sbClient.from('scripts').upsert(row);
   if (error) console.error('upsertScript:', error);
   return row.id;
 }
 
 async function deleteScript(scriptId) {
-  const { error } = await supabase.from('scripts').delete().eq('id', String(scriptId));
+  const { error } = await sbClient.from('scripts').delete().eq('id', String(scriptId));
   if (error) console.error('deleteScript:', error);
 }
 
@@ -131,12 +131,12 @@ async function upsertClient(client) {
     instagram: client.accounts?.instagram || '',
     linkedin: client.accounts?.linkedin || ''
   };
-  const { error } = await supabase.from('clients').upsert(row);
+  const { error } = await sbClient.from('clients').upsert(row);
   if (error) console.error('upsertClient:', error);
 }
 
 async function deleteClient(clientId) {
-  const { error } = await supabase.from('clients').delete().eq('id', clientId);
+  const { error } = await sbClient.from('clients').delete().eq('id', clientId);
   if (error) console.error('deleteClient:', error);
 }
 

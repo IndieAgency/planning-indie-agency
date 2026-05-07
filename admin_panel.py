@@ -5,11 +5,13 @@ import plotly.graph_objects as go
 from supabase import create_client
 from datetime import datetime, date
 import json
+import base64
+from pathlib import Path
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Admin · Planning Indie Agency",
-    page_icon="📅",
+    page_title="Panel · indie.",
+    page_icon="🎨",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -17,36 +19,61 @@ st.set_page_config(
 SUPABASE_URL = "https://vxkczsctgsxonxwjrfqe.supabase.co"
 SUPABASE_KEY = "sb_publishable_i2aKMZLyZ6_9u7yRztf3KA_TkCOJqEc"
 
+# ── IMAGE HELPERS ─────────────────────────────────────────────────────────────
+def img_to_base64(path):
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except:
+        return None
+
+BG_IMG   = img_to_base64("FOTO_PERFIL_V3.png")
+LOGO_IMG = img_to_base64("IMAGOTIPO_NEGRO.png")
+
 # ── ESTILOS ───────────────────────────────────────────────────────────────────
-st.markdown("""
+bg_css = f"""
 <style>
-    [data-testid="stSidebar"] { background: #1a1a1a; }
-    [data-testid="stSidebar"] * { color: #fff !important; }
-    .metric-card {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        border: 1.5px solid #ebebeb;
-        text-align: center;
-    }
-    .metric-num { font-size: 2rem; font-weight: 700; color: #1a1a1a; }
-    .metric-label { font-size: 0.8rem; color: #888; margin-top: 4px; }
-    .status-badge {
-        display: inline-block;
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-    }
-    .activity-item {
+    /* LOGIN background */
+    [data-testid="stAppViewContainer"] {{
+        background: #f7f6f2;
+    }}
+    .login-bg {{
+        position: fixed;
+        inset: 0;
+        background: url('data:image/png;base64,{BG_IMG}') center center / cover no-repeat;
+        z-index: 0;
+    }}
+    .login-card {{
+        position: relative;
+        z-index: 1;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(12px);
+        border-radius: 24px;
+        padding: 40px 36px;
+        box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+        max-width: 400px;
+        margin: 0 auto;
+    }}
+
+    /* SIDEBAR */
+    [data-testid="stSidebar"] {{
+        background: #1a1a1a !important;
+    }}
+    [data-testid="stSidebar"] * {{ color: #fff !important; }}
+    [data-testid="stSidebar"] .stRadio label {{ color: #ccc !important; }}
+
+    /* ACTIVITY */
+    .activity-item {{
         background: #fafafa;
         border-radius: 10px;
         padding: 12px 16px;
         margin-bottom: 8px;
-        border-left: 3px solid #6c5ce7;
-    }
+        border-left: 3px solid #f06292;
+    }}
 </style>
-""", unsafe_allow_html=True)
+""" if BG_IMG else ""
+
+st.markdown(bg_css, unsafe_allow_html=True)
 
 # ── SUPABASE ──────────────────────────────────────────────────────────────────
 @st.cache_resource
@@ -88,14 +115,42 @@ def delete_script_db(script_id):
 
 # ── LOGIN ─────────────────────────────────────────────────────────────────────
 def login_screen():
-    col1, col2, col3 = st.columns([1, 1, 1])
+    # Fondo con imagen de marca
+    if BG_IMG:
+        st.markdown(f"""
+        <div class="login-bg"></div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
-        st.markdown("<br><br>", unsafe_allow_html=True)
-        st.markdown("## 📅 Panel Admin")
-        st.markdown("**Planning Indie Agency**")
-        st.markdown("---")
+        # Logo
+        if LOGO_IMG:
+            st.markdown(f"""
+            <div style="text-align:center;margin-bottom:18px">
+                <img src="data:image/png;base64,{LOGO_IMG}"
+                     style="height:90px;filter:invert(0);border-radius:12px;background:white;padding:10px"/>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div style="text-align:center;margin-bottom:20px">
+            <div style="font-size:1.1rem;color:#555;font-weight:500">Panel de Administración</div>
+        </div>
+        """, unsafe_allow_html=True)
+
         username = st.text_input("Usuario", placeholder="admin")
         password = st.text_input("Contraseña", type="password", placeholder="••••••••")
+
+        st.markdown("""
+        <style>
+        div[data-testid="stTextInput"] input {
+            border-radius: 10px !important;
+            border: 1.5px solid #e0e0e0 !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
         if st.button("Ingresar →", use_container_width=True, type="primary"):
             clients = get_clients()
             match = next((c for c in clients if c["username"] == username and c["password"] == password), None)
@@ -519,8 +574,16 @@ def main():
 
     # Sidebar
     with st.sidebar:
-        st.markdown("## 📅 Planning Indie")
-        st.markdown("**Panel de Administración**")
+        if LOGO_IMG:
+            st.markdown(f"""
+            <div style="text-align:center;padding:16px 0 8px">
+                <img src="data:image/png;base64,{LOGO_IMG}"
+                     style="height:70px;filter:invert(1);opacity:0.9"/>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("## indie.")
+        st.markdown("<div style='text-align:center;font-size:0.75rem;color:#666;margin-bottom:12px'>Panel de Administración</div>", unsafe_allow_html=True)
         st.markdown("---")
         page = st.radio("Navegación", [
             "📊 Dashboard",

@@ -93,27 +93,23 @@ def login_screen():
     [data-testid="stAppViewContainer"] {{
         background-image: url('{BG_URL}');
         background-size: cover;
-        background-position: center;
+        background-position: center top;
+        background-attachment: fixed;
     }}
-    [data-testid="stAppViewBlockContainer"] {{
-        background: transparent;
-    }}
+    [data-testid="stAppViewBlockContainer"] {{ background: transparent; }}
+    [data-testid="stHeader"] {{ background: transparent !important; }}
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
-    _, col, _ = st.columns([1, 1, 1])
+    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+    _, col, _ = st.columns([1, 1.1, 1])
     with col:
-        st.markdown(f"""
-        <div style="background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);
-                    border-radius:24px;padding:36px 32px;box-shadow:0 24px 60px rgba(0,0,0,0.2)">
-            <div style="text-align:center;margin-bottom:20px">
-                <img src="{LOGO_URL}" style="height:80px;border-radius:8px;background:white;padding:8px"/>
-                <div style="font-size:0.95rem;color:#666;margin-top:10px;font-weight:500">Panel de Administración</div>
-            </div>
+        st.markdown("""
+        <div style="text-align:center;margin-bottom:6px">
+            <div style="font-size:1.6rem;font-weight:700;color:#1a1a1a;letter-spacing:-0.5px">indie.</div>
+            <div style="font-size:0.85rem;color:#555;margin-top:3px">Panel de Administración</div>
         </div>
         """, unsafe_allow_html=True)
-
         with st.container():
             username = st.text_input("Usuario", placeholder="admin")
             password = st.text_input("Contraseña", type="password", placeholder="••••••••")

@@ -96,12 +96,13 @@ def login_screen():
     [data-testid="stAppViewContainer"]::before {{
         content: '';
         position: fixed;
-        inset: 0;
+        inset: -60px;
         background-image: url('{BG_URL}');
-        background-size: 45%;
-        background-position: center -40px;
+        background-size: 70%;
+        background-position: center center;
         background-repeat: no-repeat;
-        opacity: 0.08;
+        opacity: 0.06;
+        filter: blur(18px);
         z-index: 0;
     }}
     [data-testid="stAppViewBlockContainer"] {{ background: transparent; position: relative; z-index: 1; }}
@@ -109,12 +110,12 @@ def login_screen():
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
     _, col, _ = st.columns([1, 1.1, 1])
     with col:
-        st.markdown(f"""
-        <div style="text-align:center;margin-bottom:18px">
-            <img src="{LOGO_URL}" style="height:52px"/>
+        st.markdown("""
+        <div style="text-align:center;margin-bottom:20px">
+            <div style="font-size:2rem;font-weight:800;color:#1a1a1a;letter-spacing:-1px">indie.</div>
         </div>
         """, unsafe_allow_html=True)
         with st.container():

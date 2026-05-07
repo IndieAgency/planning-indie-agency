@@ -31,6 +31,71 @@ st.markdown(f"""
         margin-bottom: 8px;
         border-left: 3px solid #f06292;
     }}
+
+    /* BITE ANIMATION OVERLAY */
+    .bite-overlay {{
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(249,168,212,0.15);
+        animation: fadeInOut 1.4s ease forwards;
+    }}
+    .bite-top {{
+        position: fixed;
+        top: -120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 420px;
+        height: 180px;
+        background: #1a1a1a;
+        border-radius: 0 0 50% 50%;
+        animation: biteDown 0.55s cubic-bezier(.4,0,.2,1) 0.1s forwards;
+        clip-path: polygon(
+            0% 0%, 6% 0%, 6% 60%, 10% 100%, 14% 60%, 18% 0%,
+            24% 0%, 24% 65%, 28% 100%, 32% 65%, 36% 0%,
+            42% 0%, 42% 70%, 46% 100%, 50% 70%, 54% 0%,
+            60% 0%, 60% 65%, 64% 100%, 68% 65%, 72% 0%,
+            78% 0%, 78% 60%, 82% 100%, 86% 60%, 90% 0%,
+            100% 0%
+        );
+    }}
+    .bite-bottom {{
+        position: fixed;
+        bottom: -120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 420px;
+        height: 180px;
+        background: #1a1a1a;
+        border-radius: 50% 50% 0 0;
+        animation: biteUp 0.55s cubic-bezier(.4,0,.2,1) 0.1s forwards;
+        clip-path: polygon(
+            0% 100%, 6% 100%, 6% 40%, 10% 0%, 14% 40%, 18% 100%,
+            24% 100%, 24% 35%, 28% 0%, 32% 35%, 36% 100%,
+            42% 100%, 42% 30%, 46% 0%, 50% 30%, 54% 100%,
+            60% 100%, 60% 35%, 64% 0%, 68% 35%, 72% 100%,
+            78% 100%, 78% 40%, 82% 0%, 86% 40%, 90% 100%,
+            100% 100%
+        );
+    }}
+    @keyframes biteDown {{
+        from {{ top: -120px; }}
+        to {{ top: 0px; }}
+    }}
+    @keyframes biteUp {{
+        from {{ bottom: -120px; }}
+        to {{ bottom: 0px; }}
+    }}
+    @keyframes fadeInOut {{
+        0% {{ opacity:0; }}
+        20% {{ opacity:1; }}
+        70% {{ opacity:1; }}
+        100% {{ opacity:0; }}
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -116,8 +181,10 @@ def login_screen():
     _, col, _ = st.columns([2, 1, 2])
     with col:
         st.markdown("""
-        <div style="text-align:center;margin-bottom:20px">
-            <div style="font-size:1.1rem;font-weight:800;color:#1a1a1a;letter-spacing:-0.3px">indie.<sup style="font-size:0.55rem;font-weight:600;vertical-align:super;letter-spacing:0"> ®</sup></div>
+        <div style="text-align:center;margin-bottom:22px">
+            <div style="font-size:2.2rem;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1">
+                indie.<sup style="font-size:0.9rem;font-weight:700;vertical-align:super;letter-spacing:0"> ®</sup>
+            </div>
         </div>
         """, unsafe_allow_html=True)
         with st.container():
@@ -127,6 +194,15 @@ def login_screen():
                 clients = get_clients()
                 match = next((c for c in clients if c["username"]==username and c["password"]==password), None)
                 if match and match["id"] == "admin":
+                    # Show bite animation before login
+                    st.markdown("""
+                    <div class="bite-overlay">
+                        <div class="bite-top"></div>
+                        <div class="bite-bottom"></div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    import time
+                    time.sleep(1.2)
                     st.session_state.logged_in = True
                     st.rerun()
                 elif match:
@@ -338,11 +414,14 @@ def main():
 
     with st.sidebar:
         st.markdown(f"""
-        <div style="text-align:center;padding:16px 0 8px">
-            <img src="{LOGO_URL}" style="height:65px;filter:invert(1);opacity:0.9;border-radius:8px"/>
-            <div style="font-size:0.7rem;color:#666;margin-top:8px">Panel de Administración</div>
+        <div style="text-align:center;padding:20px 0 12px">
+            <img src="{LOGO_URL}" style="height:52px;filter:invert(1);opacity:0.95"/>
+            <div style="font-size:1.05rem;font-weight:800;color:#fff;letter-spacing:-0.3px;margin-top:8px">
+                indie.<sup style="font-size:0.5rem;font-weight:600;vertical-align:super"> ®</sup>
+            </div>
+            <div style="font-size:0.65rem;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:2px">Panel Admin</div>
         </div>
-        <hr style="border-color:#333;margin:8px 0 12px"/>
+        <hr style="border-color:#2a2a2a;margin:4px 0 12px"/>
         """, unsafe_allow_html=True)
         page = st.radio("", ["📊 Dashboard","📅 Posts","📝 Guiones","💬 Actividad","👥 Clientes"])
         st.markdown("---")

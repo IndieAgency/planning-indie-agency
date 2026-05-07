@@ -217,8 +217,12 @@ function LoginScreen({clients,onLogin}){
   const[guestClient,setGuestClient]=useState(null),[guestPass,setGuestPass]=useState(""),[guestErr,setGuestErr]=useState(""),[showGP,setShowGP]=useState(false);
 
   function doLogin(){
-    const c=clients.find(c=>c.username===user.trim()&&c.password===pass);
-    if(c){setErr("");onLogin(c.id,"editor");}else setErr("Usuario o contraseña incorrectos");
+    const u=user.trim();
+    const p=pass.trim();
+    const c=clients.find(c=>c.username.trim().toLowerCase()===u.toLowerCase()&&c.password.trim()===p);
+    if(c){setErr("");onLogin(c.id,"editor");}else{
+      setErr("Usuario o contraseña incorrectos. Usuario: '"+u+"' ("+clients.length+" clientes cargados)");
+    }
   }
   function doGuestLogin(c){
     if(!c.guestPassword){onLogin(c.id,"guest");return;}

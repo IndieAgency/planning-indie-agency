@@ -96,13 +96,15 @@ def login_screen():
     [data-testid="stAppViewContainer"]::before {{
         content: '';
         position: fixed;
-        inset: -60px;
+        inset: -80px;
         background-image: url('{BG_URL}');
-        background-size: 55%;
+        background-size: 52%;
         background-position: center center;
         background-repeat: no-repeat;
-        opacity: 0.10;
-        filter: blur(8px);
+        opacity: 0.13;
+        filter: blur(14px);
+        -webkit-mask-image: radial-gradient(ellipse 55% 65% at 50% 50%, black 40%, transparent 100%);
+        mask-image: radial-gradient(ellipse 55% 65% at 50% 50%, black 40%, transparent 100%);
         z-index: 0;
     }}
     [data-testid="stAppViewBlockContainer"] {{ background: transparent; position: relative; z-index: 1; }}
@@ -110,12 +112,12 @@ def login_screen():
     </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<br><br><br><br>", unsafe_allow_html=True)
-    _, col, _ = st.columns([1.4, 1, 1.4])
+    st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
+    _, col, _ = st.columns([2, 1, 2])
     with col:
         st.markdown("""
         <div style="text-align:center;margin-bottom:20px">
-            <div style="font-size:1.5rem;font-weight:800;color:#1a1a1a;letter-spacing:-0.5px">indie.<sup style="font-size:0.6rem;font-weight:400;vertical-align:super;letter-spacing:0">®</sup></div>
+            <div style="font-size:1.1rem;font-weight:800;color:#1a1a1a;letter-spacing:-0.3px">indie.<sup style="font-size:0.55rem;font-weight:600;vertical-align:super;letter-spacing:0"> ®</sup></div>
         </div>
         """, unsafe_allow_html=True)
         with st.container():

@@ -192,21 +192,17 @@ def login_screen():
             password = st.text_input("Contraseña", type="password", placeholder="••••••••")
             if st.button("Ingresar →", use_container_width=True, type="primary"):
                 clients = get_clients()
-                match = next((c for c in clients if c["username"]==username and c["password"]==password), None)
+                u = username.strip()
+                p = password.strip()
+                match = next((c for c in clients 
+                    if c["username"].strip().lower() == u.lower() 
+                    and c["password"].strip() == p
+                    and c["id"] == "admin"), None)
                 if match:
-                    if match["id"] == "admin":
-                        st.session_state.logged_in = True
-                        st.rerun()
-                    else:
-                        st.error("Solo el usuario Admin puede acceder.")
+                    st.session_state.logged_in = True
+                    st.rerun()
                 else:
-                    # Try case-insensitive match
-                    match2 = next((c for c in clients if c["username"].lower()==username.lower() and c["password"]==password), None)
-                    if match2 and match2["id"] == "admin":
-                        st.session_state.logged_in = True
-                        st.rerun()
-                    else:
-                        st.error("Usuario o contraseña incorrectos.")
+                    st.error(f"No encontrado. Users: {[c['username'] for c in clients]}")
 
 # ── PÁGINAS ───────────────────────────────────────────────────────────────────
 def page_dashboard(clients, all_posts, all_scripts):

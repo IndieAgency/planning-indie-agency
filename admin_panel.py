@@ -193,13 +193,20 @@ def login_screen():
             if st.button("Ingresar →", use_container_width=True, type="primary"):
                 clients = get_clients()
                 match = next((c for c in clients if c["username"]==username and c["password"]==password), None)
-                if match and match["id"] == "admin":
-                    st.session_state.logged_in = True
-                    st.rerun()
-                elif match:
-                    st.error("Solo el usuario Admin puede acceder.")
+                if match:
+                    if match["id"] == "admin":
+                        st.session_state.logged_in = True
+                        st.rerun()
+                    else:
+                        st.error("Solo el usuario Admin puede acceder.")
                 else:
-                    st.error("Usuario o contraseña incorrectos.")
+                    # Try case-insensitive match
+                    match2 = next((c for c in clients if c["username"].lower()==username.lower() and c["password"]==password), None)
+                    if match2 and match2["id"] == "admin":
+                        st.session_state.logged_in = True
+                        st.rerun()
+                    else:
+                        st.error("Usuario o contraseña incorrectos.")
 
 # ── PÁGINAS ───────────────────────────────────────────────────────────────────
 def page_dashboard(clients, all_posts, all_scripts):

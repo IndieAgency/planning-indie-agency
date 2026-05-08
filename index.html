@@ -971,7 +971,10 @@ function App(){
       {/* HEADER */}
       <div style={{background:"#1a1a1a",color:"#fff",padding:"11px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,flexWrap:"wrap",position:"sticky",top:0,zIndex:50,boxShadow:"0 2px 12px rgba(0,0,0,.3)"}}>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
-          <div style={{width:28,height:28,borderRadius:"50%",background:client.color||"#6c5ce7",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:12,flexShrink:0}}>{client.name.charAt(0).toUpperCase()}</div>
+          {client.id==="wauhaus"
+            ? <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/logoWAUHAUS.png" style={{height:32,borderRadius:6,background:"#00b894",padding:"2px 6px"}}/>
+            : <div style={{width:28,height:28,borderRadius:"50%",background:client.color||"#6c5ce7",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:12,flexShrink:0}}>{client.name.charAt(0).toUpperCase()}</div>
+          }
           <div><div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:700,lineHeight:1}}>{client.name}</div><div style={{fontSize:8,color:"#666",marginTop:1}}>Planificador RRSS · Supabase</div></div>
           {isGuest&&<span style={{background:"#f0a500",color:"#fff",borderRadius:5,padding:"2px 7px",fontSize:9,fontWeight:700}}>👤 Invitado</span>}
         </div>

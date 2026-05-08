@@ -235,7 +235,9 @@ function LoginScreen({clients,onLogin}){
 
   return(
     <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#f9a8d4 0%,#fde68a 100%)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-      <div style={{background:"#fff",borderRadius:24,padding:"36px 32px",width:"min(400px,96vw)",boxShadow:"0 32px 80px rgba(0,0,0,.4)",position:"relative",zIndex:2}}>
+      <div style={{position:"relative",display:"flex",alignItems:"center"}}>
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:"clamp(80px,12vw,140px)",fontWeight:700,color:"rgba(255,255,255,.55)",lineHeight:1,letterSpacing:-4,userSelect:"none",marginRight:-20,zIndex:1,textShadow:"0 8px 32px rgba(200,100,150,.15)"}}>In</div>
+        <div style={{background:"#fff",borderRadius:24,padding:"36px 32px",width:"min(400px,96vw)",boxShadow:"0 32px 80px rgba(0,0,0,.25)",position:"relative",zIndex:2}}>
         <div style={{textAlign:"center",marginBottom:24}}>
           <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/ISO_NEGRO.png" style={{height:60,marginBottom:10,filter:"invert(1)",opacity:0.9}}/>
           <div style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,marginBottom:4}}>Planificador RRSS</div>
@@ -287,6 +289,8 @@ function LoginScreen({clients,onLogin}){
             </div>
           )}
         </div>
+        </div>
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:"clamp(80px,12vw,140px)",fontWeight:700,color:"rgba(255,255,255,.55)",lineHeight:1,letterSpacing:-4,userSelect:"none",marginLeft:-20,zIndex:1,textShadow:"0 8px 32px rgba(200,100,150,.15)"}}>di</div>
       </div>
     </div>
   );

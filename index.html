@@ -234,45 +234,69 @@ function LoginScreen({clients,onLogin}){
   }
 
   return(
-    <div style={{minHeight:"100vh",background:"url('https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/FOTO%20PERFIL%20V3.png') center/cover no-repeat",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-      {/* Overlay suave */}
-      <div style={{position:"fixed",inset:0,background:"rgba(255,255,255,.15)",backdropFilter:"blur(2px)"}}/>
-      <div style={{position:"relative",display:"flex",alignItems:"flex-end",zIndex:2}}>
-        {/* Letra decorativa izquierda */}
-        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"clamp(80px,11vw,140px)",fontWeight:700,color:"rgba(26,26,26,.12)",lineHeight:1,letterSpacing:-3,userSelect:"none",marginRight:-22,paddingBottom:40,zIndex:3}}>in</div>
-        {/* Tarjeta */}
-        <div style={{background:"rgba(255,255,255,.92)",backdropFilter:"blur(20px)",borderRadius:28,padding:"40px 36px 32px",width:"min(400px,92vw)",boxShadow:"0 40px 100px rgba(0,0,0,.18)",position:"relative",zIndex:2,border:"1px solid rgba(255,255,255,.8)"}}>
-          <div style={{textAlign:"center",marginBottom:32}}>
-            <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/IMAGOTIPO_NEGRO.png"
-              style={{height:52,marginBottom:8,opacity:.9}}/>
-            <div style={{fontSize:9,color:"#bbb",letterSpacing:3,textTransform:"uppercase",marginTop:6}}>Planificador de Redes Sociales</div>
-          </div>
-        <div style={{marginBottom:11}}>
-          <div style={{fontSize:11,fontWeight:600,color:"#555",marginBottom:4}}>Usuario</div>
-          <input value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()} placeholder="tu_usuario" style={{width:"100%",padding:"10px 13px",borderRadius:9,border:"1.5px solid #e0e0e0",fontSize:13,outline:"none"}}/>
+    <div style={{minHeight:"100vh",background:"#1e1e1e",display:"flex",alignItems:"center",justifyContent:"center",padding:20,position:"relative",overflow:"hidden"}}>
+
+      {/* Letras de fondo — tipografía marca */}
+      <div style={{position:"fixed",inset:0,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none",zIndex:0,overflow:"hidden"}}>
+        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"38vw",fontWeight:700,color:"rgba(255,255,255,.03)",lineHeight:1,letterSpacing:"-0.05em",userSelect:"none",whiteSpace:"nowrap",marginTop:"4vw"}}>indie.</div>
+      </div>
+
+      {/* Acento de color — punto de luz rosa suave arriba */}
+      <div style={{position:"fixed",top:-120,left:"50%",transform:"translateX(-50%)",width:500,height:280,background:"radial-gradient(ellipse,rgba(249,168,212,.18) 0%,transparent 70%)",pointerEvents:"none",zIndex:0}}/>
+
+      {/* Tarjeta */}
+      <div style={{position:"relative",zIndex:2,background:"#ffffff",borderRadius:24,padding:"44px 40px 36px",width:"min(420px,94vw)",boxShadow:"0 24px 80px rgba(0,0,0,.5)"}}>
+
+        {/* Header marca */}
+        <div style={{textAlign:"center",marginBottom:36}}>
+          <img
+            src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/IMAGOTIPO_NEGRO.png"
+            style={{height:40,display:"block",margin:"0 auto 12px",opacity:.92}}
+            onError={e=>{e.target.style.display="none";}}
+          />
+          <div style={{width:32,height:2,background:"#1a1a1a",borderRadius:2,margin:"0 auto 12px"}}/>
+          <div style={{fontSize:9,color:"#aaa",letterSpacing:3,textTransform:"uppercase",fontWeight:500}}>Planificador de Redes Sociales</div>
         </div>
+
+        {/* Campos */}
         <div style={{marginBottom:14}}>
-          <div style={{fontSize:11,fontWeight:600,color:"#555",marginBottom:4}}>Contraseña</div>
+          <div style={{fontSize:11,fontWeight:600,color:"#444",marginBottom:5}}>Usuario</div>
+          <input value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()} placeholder="tu_usuario"
+            style={{width:"100%",padding:"11px 14px",borderRadius:10,border:"1.5px solid #e8e8e8",fontSize:13,outline:"none",background:"#fafafa",transition:"border-color .2s"}}
+            onFocus={e=>e.target.style.borderColor="#1a1a1a"} onBlur={e=>e.target.style.borderColor="#e8e8e8"}/>
+        </div>
+        <div style={{marginBottom:18}}>
+          <div style={{fontSize:11,fontWeight:600,color:"#444",marginBottom:5}}>Contraseña</div>
           <div style={{position:"relative"}}>
-            <input value={pass} onChange={e=>setPass(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()} type={show?"text":"password"} placeholder="••••••••" style={{width:"100%",padding:"10px 38px 10px 13px",borderRadius:9,border:"1.5px solid "+(err?"#e53935":"#e0e0e0"),fontSize:13,outline:"none"}}/>
-            <button onClick={()=>setShow(s=>!s)} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:14,color:"#aaa"}}>{show?"🙈":"👁️"}</button>
+            <input value={pass} onChange={e=>setPass(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()} type={show?"text":"password"} placeholder="••••••••"
+              style={{width:"100%",padding:"11px 40px 11px 14px",borderRadius:10,border:"1.5px solid "+(err?"#e53935":"#e8e8e8"),fontSize:13,outline:"none",background:"#fafafa",transition:"border-color .2s"}}
+              onFocus={e=>e.target.style.borderColor=err?"#e53935":"#1a1a1a"} onBlur={e=>e.target.style.borderColor=err?"#e53935":"#e8e8e8"}/>
+            <button onClick={()=>setShow(s=>!s)} style={{position:"absolute",right:12,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:14,color:"#aaa",padding:0}}>{show?"🙈":"👁️"}</button>
           </div>
         </div>
-        {err&&<div style={{background:"#fff3f3",border:"1px solid #ffcdd2",borderRadius:7,padding:"7px 11px",fontSize:11,color:"#e53935",marginBottom:12}}>{err}</div>}
-        <button onClick={doLogin} style={{width:"100%",padding:"12px",borderRadius:11,border:"none",background:"#1a1a1a",color:"#fff",fontWeight:700,fontSize:14,cursor:"pointer",marginBottom:16}}>Ingresar →</button>
-        <div style={{borderTop:"1px solid #f0f0f0",paddingTop:14}}>
-          <div style={{fontSize:10,color:"#aaa",textAlign:"center",marginBottom:9}}>👤 Acceso como invitado (solo lectura)</div>
+        {err&&<div style={{background:"#fff3f3",border:"1px solid #ffcdd2",borderRadius:8,padding:"8px 12px",fontSize:11,color:"#e53935",marginBottom:14}}>{err}</div>}
+
+        <button onClick={doLogin}
+          style={{width:"100%",padding:"13px",borderRadius:11,border:"none",background:"#1a1a1a",color:"#fff",fontWeight:700,fontSize:14,cursor:"pointer",marginBottom:22,letterSpacing:.3,transition:"background .2s"}}
+          onMouseEnter={e=>e.currentTarget.style.background="#333"} onMouseLeave={e=>e.currentTarget.style.background="#1a1a1a"}>
+          Ingresar →
+        </button>
+
+        {/* Invitados */}
+        <div style={{borderTop:"1px solid #f0f0f0",paddingTop:16}}>
+          <div style={{fontSize:10,color:"#bbb",textAlign:"center",marginBottom:10,letterSpacing:.5}}>👤 Acceso como invitado (solo lectura)</div>
           {guestClient?(
-            <div style={{background:"#f8f8f8",borderRadius:11,padding:14,border:"1.5px solid #e8e8e8"}}>
+            <div style={{background:"#f8f8f8",borderRadius:12,padding:14,border:"1.5px solid #ececec"}}>
               <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:11}}>
                 <div style={{width:28,height:28,borderRadius:"50%",background:guestClient.color,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:12}}>{guestClient.name.charAt(0).toUpperCase()}</div>
                 <div style={{fontSize:12,fontWeight:600}}>{guestClient.name}</div>
-                <button onClick={()=>setGuestClient(null)} style={{marginLeft:"auto",background:"none",border:"none",cursor:"pointer",color:"#bbb",fontSize:16}}>×</button>
+                <button onClick={()=>setGuestClient(null)} style={{marginLeft:"auto",background:"none",border:"none",cursor:"pointer",color:"#ccc",fontSize:18,lineHeight:1}}>×</button>
               </div>
               <div style={{fontSize:11,fontWeight:600,color:"#555",marginBottom:5}}>Contraseña de invitado</div>
               <div style={{display:"flex",gap:7}}>
                 <div style={{position:"relative",flex:1}}>
-                  <input value={guestPass} onChange={e=>setGuestPass(e.target.value)} onKeyDown={e=>e.key==="Enter"&&confirmGuest()} type={showGP?"text":"password"} placeholder="••••••" style={{width:"100%",padding:"9px 34px 9px 11px",borderRadius:8,border:"1.5px solid "+(guestErr?"#e53935":"#e0e0e0"),fontSize:12,outline:"none"}}/>
+                  <input value={guestPass} onChange={e=>setGuestPass(e.target.value)} onKeyDown={e=>e.key==="Enter"&&confirmGuest()} type={showGP?"text":"password"} placeholder="••••••"
+                    style={{width:"100%",padding:"9px 34px 9px 11px",borderRadius:8,border:"1.5px solid "+(guestErr?"#e53935":"#e0e0e0"),fontSize:12,outline:"none"}}/>
                   <button onClick={()=>setShowGP(s=>!s)} style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:12,color:"#aaa"}}>{showGP?"🙈":"👁️"}</button>
                 </div>
                 <button onClick={confirmGuest} style={{padding:"9px 14px",borderRadius:8,border:"none",background:"#1a1a1a",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer"}}>Entrar</button>
@@ -280,28 +304,26 @@ function LoginScreen({clients,onLogin}){
               {guestErr&&<div style={{fontSize:10,color:"#e53935",marginTop:5}}>{guestErr}</div>}
             </div>
           ):(
-            <div style={{display:"flex",flexDirection:"column",gap:5}}>
+            <div style={{display:"flex",flexDirection:"column",gap:6}}>
               {clients.map(c=>(
                 <button key={c.id} onClick={()=>doGuestLogin(c)}
-                  style={{padding:"8px 13px",borderRadius:9,border:"1.5px solid #e8e8e8",background:"#fafafa",cursor:"pointer",fontSize:12,fontWeight:600,color:"#555",display:"flex",alignItems:"center",gap:8,transition:"background .15s"}}
-                  onMouseEnter={e=>e.currentTarget.style.background="#f0f0f0"} onMouseLeave={e=>e.currentTarget.style.background="#fafafa"}>
-                  <div style={{width:20,height:20,borderRadius:"50%",background:c.color||"#6c5ce7",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:9,flexShrink:0}}>{c.name.charAt(0).toUpperCase()}</div>
+                  style={{padding:"10px 14px",borderRadius:10,border:"1.5px solid #ececec",background:"#fafafa",cursor:"pointer",fontSize:12,fontWeight:600,color:"#444",display:"flex",alignItems:"center",gap:9,transition:"all .15s"}}
+                  onMouseEnter={e=>{e.currentTarget.style.background="#f0f0f0";e.currentTarget.style.borderColor="#d0d0d0";}}
+                  onMouseLeave={e=>{e.currentTarget.style.background="#fafafa";e.currentTarget.style.borderColor="#ececec";}}>
+                  <div style={{width:22,height:22,borderRadius:"50%",background:c.color||"#1a1a1a",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:10,flexShrink:0}}>{c.name.charAt(0).toUpperCase()}</div>
                   {c.name}
-                  <span style={{marginLeft:"auto",fontSize:9,color:"#bbb",background:"#ebebeb",borderRadius:5,padding:"2px 6px"}}>{c.guestPassword?"🔒 con clave":"invitado"}</span>
+                  <span style={{marginLeft:"auto",fontSize:9,color:"#bbb",background:"#ebebeb",borderRadius:5,padding:"2px 7px"}}>{c.guestPassword?"🔒 con clave":"invitado"}</span>
                 </button>
               ))}
             </div>
           )}
         </div>
-        </div>
-        {/* Letra decorativa derecha */}
-        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"clamp(80px,11vw,140px)",fontWeight:700,color:"rgba(26,26,26,.12)",lineHeight:1,letterSpacing:-3,userSelect:"none",marginLeft:-22,paddingBottom:40,zIndex:3}}>di</div>
       </div>
     </div>
   );
 }
 
-// ── ADMIN PANEL ───────────────────────────────────────────────────────────────
+// ── ADMIN PANEL// ── ADMIN PANEL ───────────────────────────────────────────────────────────────
 function AdminPanel({clients,onSave,onClose}){
   const[localClients,setLocalClients]=useState(JSON.parse(JSON.stringify(clients)));
   const[editing,setEditing]=useState(null);

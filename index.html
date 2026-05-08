@@ -234,15 +234,19 @@ function LoginScreen({clients,onLogin}){
   }
 
   return(
-    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#f9a8d4 0%,#fde68a 100%)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
-      <div style={{position:"relative",display:"flex",alignItems:"center"}}>
-        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"clamp(90px,13vw,160px)",fontWeight:700,color:"rgba(26,26,26,.18)",lineHeight:1,letterSpacing:-4,userSelect:"none",marginRight:-28,zIndex:3}}>in</div>
-        <div style={{background:"#fff",borderRadius:24,padding:"36px 32px",width:"min(400px,96vw)",boxShadow:"0 32px 80px rgba(0,0,0,.25)",position:"relative",zIndex:2}}>
-        <div style={{textAlign:"center",marginBottom:28}}>
-          <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/LOGOTIPO%20NEGRO.png"
-            style={{height:44,marginBottom:14,filter:"invert(0)",opacity:.85}}/>
-          <div style={{fontSize:10,color:"#bbb",letterSpacing:2,textTransform:"uppercase"}}>Planificador de redes sociales</div>
-        </div>
+    <div style={{minHeight:"100vh",background:"url('https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/FOTO%20PERFIL%20V3.png') center/cover no-repeat",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+      {/* Overlay suave */}
+      <div style={{position:"fixed",inset:0,background:"rgba(255,255,255,.15)",backdropFilter:"blur(2px)"}}/>
+      <div style={{position:"relative",display:"flex",alignItems:"flex-end",zIndex:2}}>
+        {/* Letra decorativa izquierda */}
+        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"clamp(80px,11vw,140px)",fontWeight:700,color:"rgba(26,26,26,.12)",lineHeight:1,letterSpacing:-3,userSelect:"none",marginRight:-22,paddingBottom:40,zIndex:3}}>in</div>
+        {/* Tarjeta */}
+        <div style={{background:"rgba(255,255,255,.92)",backdropFilter:"blur(20px)",borderRadius:28,padding:"40px 36px 32px",width:"min(400px,92vw)",boxShadow:"0 40px 100px rgba(0,0,0,.18)",position:"relative",zIndex:2,border:"1px solid rgba(255,255,255,.8)"}}>
+          <div style={{textAlign:"center",marginBottom:32}}>
+            <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/IMAGOTIPO_NEGRO.png"
+              style={{height:52,marginBottom:8,opacity:.9}}/>
+            <div style={{fontSize:9,color:"#bbb",letterSpacing:3,textTransform:"uppercase",marginTop:6}}>Planificador de Redes Sociales</div>
+          </div>
         <div style={{marginBottom:11}}>
           <div style={{fontSize:11,fontWeight:600,color:"#555",marginBottom:4}}>Usuario</div>
           <input value={user} onChange={e=>setUser(e.target.value)} onKeyDown={e=>e.key==="Enter"&&doLogin()} placeholder="tu_usuario" style={{width:"100%",padding:"10px 13px",borderRadius:9,border:"1.5px solid #e0e0e0",fontSize:13,outline:"none"}}/>
@@ -290,7 +294,8 @@ function LoginScreen({clients,onLogin}){
           )}
         </div>
         </div>
-        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"clamp(90px,13vw,160px)",fontWeight:700,color:"rgba(26,26,26,.18)",lineHeight:1,letterSpacing:-4,userSelect:"none",marginLeft:-28,zIndex:3}}>di</div>
+        {/* Letra decorativa derecha */}
+        <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"clamp(80px,11vw,140px)",fontWeight:700,color:"rgba(26,26,26,.12)",lineHeight:1,letterSpacing:-3,userSelect:"none",marginLeft:-22,paddingBottom:40,zIndex:3}}>di</div>
       </div>
     </div>
   );

@@ -1003,13 +1003,19 @@ function App(){
       {view==="guiones"&&<ScriptsView scripts={scripts} posts={posts} isGuest={isGuest} onOpen={s=>setScriptDetail(s)} onNew={()=>setScriptDetail({...EMPTY_SCRIPT})} onDelete={delScript}/>}
 
       {view==="calendario"&&(
-        <div className="fade">
-          <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12,padding:"12px 18px 4px"}}>
+        <div className="fade" style={{position:"relative",background:client.id==="wauhaus"?"#f0faf7":"#f7f6f2",minHeight:"calc(100vh - 54px)"}}>
+          {client.id==="wauhaus"&&(
+            <div style={{position:"fixed",inset:0,top:54,pointerEvents:"none",zIndex:0,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
+              <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/logoWAUHAUS.png"
+                alt="" style={{width:"55%",maxWidth:600,opacity:.06,filter:"saturate(0)",userSelect:"none",pointerEvents:"none"}}/>
+            </div>
+          )}
+          <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:12,padding:"12px 18px 4px"}}>
             <button onClick={prev} style={{background:"#fff",border:"1.5px solid #e0e0e0",borderRadius:7,width:27,height:27,cursor:"pointer",fontSize:12,display:"flex",alignItems:"center",justifyContent:"center"}}>‹</button>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:17,fontWeight:700,minWidth:170,textAlign:"center"}}>{MON[month]} {year}</div>
             <button onClick={next} style={{background:"#fff",border:"1.5px solid #e0e0e0",borderRadius:7,width:27,height:27,cursor:"pointer",fontSize:12,display:"flex",alignItems:"center",justifyContent:"center"}}>›</button>
           </div>
-          <div style={{padding:"6px 18px 20px"}}>
+          <div style={{position:"relative",zIndex:1,padding:"6px 18px 20px"}}>
             <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:3}}>{DAYS.map(d=><div key={d} style={{textAlign:"center",fontSize:8,fontWeight:700,color:"#aaa",padding:"4px 0",textTransform:"uppercase",letterSpacing:1}}>{d}</div>)}</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3}}>
               {Array.from({length:fd}).map((_,i)=><div key={"e"+i} style={{minHeight:96}}/>)}
@@ -1034,7 +1040,7 @@ function App(){
               })}
             </div>
           </div>
-          <div style={{display:"flex",gap:6,padding:"0 18px 16px",flexWrap:"wrap"}}>{ST_OPT.map(s=><div key={s} style={{display:"flex",alignItems:"center",gap:3,fontSize:9,color:"#888"}}><span style={{width:6,height:6,borderRadius:2,background:ST_CLR[s],border:"1px solid #ddd",display:"inline-block"}}/>{s}</div>)}</div>
+          <div style={{position:"relative",zIndex:1,display:"flex",gap:6,padding:"0 18px 16px",flexWrap:"wrap"}}>{ST_OPT.map(s=><div key={s} style={{display:"flex",alignItems:"center",gap:3,fontSize:9,color:"#888"}}><span style={{width:6,height:6,borderRadius:2,background:ST_CLR[s],border:"1px solid #ddd",display:"inline-block"}}/>{s}</div>)}</div>
         </div>
       )}
 

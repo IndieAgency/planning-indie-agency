@@ -967,7 +967,7 @@ function App(){
   const VIEWS=[{id:"calendario",l:"📅"},{id:"guiones",l:"📝 Guión"},{id:"feed",l:"🖼️ Feed"}];
 
   return(
-    <div style={{fontFamily:"'DM Sans',sans-serif",minHeight:"100vh",background:"#f7f6f2"}}>
+    <div style={{fontFamily:"'DM Sans',sans-serif",minHeight:"100vh",background:client.id==="wauhaus"?"#edf7f3":"#f7f6f2"}}>
       {/* HEADER */}
       <div style={{background:client.id==="wauhaus"?"#1a2e2a":"#1a1a1a",color:"#fff",padding:"11px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,flexWrap:"wrap",position:"sticky",top:0,zIndex:50,boxShadow:client.id==="wauhaus"?"0 2px 12px rgba(0,184,148,.2)":"0 2px 12px rgba(0,0,0,.3)",borderBottom:client.id==="wauhaus"?"2px solid #00b894":"2px solid transparent"}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -1007,7 +1007,7 @@ function App(){
           {client.id==="wauhaus"&&(
             <div style={{position:"fixed",inset:0,top:54,pointerEvents:"none",zIndex:0,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
               <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/logoWAUHAUS.png"
-                alt="" style={{width:"55%",maxWidth:600,opacity:.06,filter:"saturate(0)",userSelect:"none",pointerEvents:"none"}}/>
+                alt="" style={{width:"60%",maxWidth:650,opacity:.12,filter:"saturate(0) brightness(0.3)",userSelect:"none",pointerEvents:"none"}}/>
             </div>
           )}
           <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:12,padding:"12px 18px 4px"}}>

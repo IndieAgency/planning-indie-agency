@@ -21,6 +21,7 @@
     button,input,textarea,select{font-family:'DM Sans',sans-serif}
     ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#f0f0f0}::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
     .fade{animation:fi .2s ease}@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+    button:hover .guest-bg{background:#e4e4e4 !important}
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
     .modal-box{background:#fff;border-radius:18px;box-shadow:0 32px 80px rgba(0,0,0,.25);overflow:hidden;display:flex;flex-direction:column}
   </style>
@@ -308,21 +309,28 @@ function LoginScreen({clients,onLogin}){
               {clients.map(c=>(
                 <button key={c.id} onClick={()=>doGuestLogin(c)}
                   style={{
-                    padding:"10px 14px",
-                    border:"1.5px solid #e2e2e2",
-                    background:"#f2f2f2",
+                    padding:"10px 14px 10px 14px",
+                    border:"none",
+                    background:"transparent",
                     cursor:"pointer",fontSize:12,fontWeight:600,color:"#333",
                     display:"flex",alignItems:"center",gap:9,
                     transition:"all .15s",
+                    position:"relative",
+                    outline:"none",
+                    borderRadius:0,
+                  }}>
+                  {/* Fondo con mordisco */}
+                  <span style={{
+                    position:"absolute",inset:0,
+                    background:"#f0f0f0",
                     borderRadius:"10px 10px 10px 10px",
-                    clipPath:"polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%)",
-                    position:"relative"
-                  }}
-                  onMouseEnter={e=>{e.currentTarget.style.background="#e8e8e8";e.currentTarget.style.borderColor="#c8c8c8";}}
-                  onMouseLeave={e=>{e.currentTarget.style.background="#f2f2f2";e.currentTarget.style.borderColor="#e2e2e2";}}>
-                  <div style={{width:22,height:22,borderRadius:"50%",background:c.color||"#1a1a1a",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:10,flexShrink:0}}>{c.name.charAt(0).toUpperCase()}</div>
-                  {c.name}
-                  <span style={{marginLeft:"auto",fontSize:9,color:"#999",background:"#e4e4e4",borderRadius:5,padding:"2px 7px"}}>{c.guestPassword?"🔒 con clave":"invitado"}</span>
+                    clipPath:"polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%)",
+                    transition:"background .15s",
+                    zIndex:0
+                  }} className="guest-bg"/>
+                  <div style={{position:"relative",zIndex:1,width:22,height:22,borderRadius:"50%",background:c.color||"#1a1a1a",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:10,flexShrink:0}}>{c.name.charAt(0).toUpperCase()}</div>
+                  <span style={{position:"relative",zIndex:1}}>{c.name}</span>
+                  <span style={{marginLeft:"auto",fontSize:9,color:"#999",background:"#e4e4e4",borderRadius:5,padding:"2px 7px",position:"relative",zIndex:1}}>{c.guestPassword?"🔒 con clave":"invitado"}</span>
                 </button>
               ))}
             </div>

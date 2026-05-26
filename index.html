@@ -307,31 +307,24 @@ function LoginScreen({clients,onLogin}){
           ):(
             <div style={{display:"flex",flexDirection:"column",gap:6}}>
               {clients.map(c=>(
-                <button key={c.id} onClick={()=>doGuestLogin(c)}
+                <div key={c.id} onClick={()=>doGuestLogin(c)}
                   style={{
-                    padding:"10px 14px 10px 14px",
+                    padding:"11px 14px",
                     border:"none",
-                    background:"transparent",
+                    background:"#efefef",
                     cursor:"pointer",fontSize:12,fontWeight:600,color:"#333",
                     display:"flex",alignItems:"center",gap:9,
-                    transition:"all .15s",
-                    position:"relative",
-                    outline:"none",
-                    borderRadius:0,
-                  }}>
-                  {/* Fondo con mordisco */}
-                  <span style={{
-                    position:"absolute",inset:0,
-                    background:"#f0f0f0",
-                    borderRadius:"10px 10px 10px 10px",
-                    clipPath:"polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%)",
                     transition:"background .15s",
-                    zIndex:0
-                  }} className="guest-bg"/>
-                  <div style={{position:"relative",zIndex:1,width:22,height:22,borderRadius:"50%",background:c.color||"#1a1a1a",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:10,flexShrink:0}}>{c.name.charAt(0).toUpperCase()}</div>
-                  <span style={{position:"relative",zIndex:1}}>{c.name}</span>
-                  <span style={{marginLeft:"auto",fontSize:9,color:"#999",background:"#e4e4e4",borderRadius:5,padding:"2px 7px",position:"relative",zIndex:1}}>{c.guestPassword?"🔒 con clave":"invitado"}</span>
-                </button>
+                    clipPath:"polygon(0 0,100% 0,100% calc(100% - 15px),calc(100% - 15px) 100%,0 100%)",
+                    borderRadius:2,
+                    userSelect:"none",
+                  }}
+                  onMouseEnter={e=>e.currentTarget.style.background="#e3e3e3"}
+                  onMouseLeave={e=>e.currentTarget.style.background="#efefef"}>
+                  <div style={{width:22,height:22,borderRadius:"50%",background:c.color||"#1a1a1a",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:10,flexShrink:0}}>{c.name.charAt(0).toUpperCase()}</div>
+                  {c.name}
+                  <span style={{marginLeft:"auto",fontSize:9,color:"#999",background:"#e0e0e0",borderRadius:4,padding:"2px 7px"}}>{c.guestPassword?"🔒 con clave":"invitado"}</span>
+                </div>
               ))}
             </div>
           )}

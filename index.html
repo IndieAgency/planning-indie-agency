@@ -998,19 +998,23 @@ function App(){
   const VIEWS=[{id:"calendario",l:"📅"},{id:"guiones",l:"📝 Guión"},{id:"feed",l:"🖼️ Feed"}];
 
   return(
-    <div style={{fontFamily:"'DM Sans',sans-serif",minHeight:"100vh",background:client.id==="wauhaus"?"#edf7f3":"#f7f6f2"}}>
+    <div style={{fontFamily:"'DM Sans',sans-serif",minHeight:"100vh",background:client.id==="wauhaus"?"#edf7f3":client.id==="cosmos"?"#eef3fa":"#f7f6f2"}}>
       {/* HEADER */}
-      <div style={{background:client.id==="wauhaus"?"#1a2e2a":"#1a1a1a",color:"#fff",padding:"11px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,flexWrap:"wrap",position:"sticky",top:0,zIndex:50,boxShadow:client.id==="wauhaus"?"0 2px 12px rgba(0,184,148,.2)":"0 2px 12px rgba(0,0,0,.3)",borderBottom:client.id==="wauhaus"?"2px solid #00b894":"2px solid transparent"}}>
+      <div style={{background:client.id==="wauhaus"?"#1a2e2a":client.id==="cosmos"?"#0f2d5c":"#1a1a1a",color:"#fff",padding:"11px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,flexWrap:"wrap",position:"sticky",top:0,zIndex:50,boxShadow:client.id==="wauhaus"?"0 2px 12px rgba(0,184,148,.2)":client.id==="cosmos"?"0 2px 12px rgba(26,92,168,.3)":"0 2px 12px rgba(0,0,0,.3)",borderBottom:client.id==="wauhaus"?"2px solid #00b894":client.id==="cosmos"?"2px solid #1a5ca8":"2px solid transparent"}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           {client.id==="wauhaus"
             ? <div style={{width:36,height:36,borderRadius:"50%",overflow:"hidden",flexShrink:0,border:"2px solid #00b894",boxShadow:"0 0 0 3px rgba(0,184,148,.15)"}}>
                 <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/images.jpg" style={{width:"100%",height:"100%",objectFit:"cover",background:"#fff"}} onError={e=>{e.target.style.display="none";e.target.parentNode.style.background="#00b894";e.target.parentNode.innerHTML="<span style='display:flex;align-items:center;justify-content:center;height:100%;font-size:16px'>🐾</span>";}}/>
               </div>
+            : client.id==="cosmos"
+            ? <div style={{width:36,height:36,borderRadius:"50%",overflow:"hidden",flexShrink:0,border:"2px solid #1a5ca8",boxShadow:"0 0 0 3px rgba(26,92,168,.2)"}}>
+                <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/LOGOCOSMOS.PNG" style={{width:"100%",height:"100%",objectFit:"cover",background:"#fff"}} onError={e=>{e.target.style.display="none";e.target.parentNode.style.background="#1a5ca8";e.target.parentNode.innerHTML="<span style='display:flex;align-items:center;justify-content:center;height:100%;font-size:16px'>🔬</span>";}}/>
+              </div>
             : <div style={{width:28,height:28,borderRadius:"50%",background:client.color||"#6c5ce7",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:12,flexShrink:0}}>{client.name.charAt(0).toUpperCase()}</div>
           }
           <div>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:700,lineHeight:1,color:client.id==="wauhaus"?"#fff":"#fff"}}>{client.name}</div>
-            <div style={{fontSize:8,color:client.id==="wauhaus"?"#00b894":"#666",marginTop:1,fontWeight:client.id==="wauhaus"?600:400}}>Planificador RRSS · Planning Indie</div>
+            <div style={{fontSize:8,color:client.id==="wauhaus"?"#00b894":client.id==="cosmos"?"#6fa3d8":"#666",marginTop:1,fontWeight:client.id==="wauhaus"||client.id==="cosmos"?600:400}}>Planificador RRSS · Planning Indie</div>
           </div>
           {isGuest&&<span style={{background:"#f0a500",color:"#fff",borderRadius:5,padding:"2px 7px",fontSize:9,fontWeight:700}}>👤 Invitado</span>}
         </div>
@@ -1034,11 +1038,17 @@ function App(){
       {view==="guiones"&&<ScriptsView scripts={scripts} posts={posts} isGuest={isGuest} onOpen={s=>setScriptDetail(s)} onNew={()=>setScriptDetail({...EMPTY_SCRIPT})} onDelete={delScript}/>}
 
       {view==="calendario"&&(
-        <div className="fade" style={{position:"relative",background:client.id==="wauhaus"?"#f0faf7":"#f7f6f2",minHeight:"calc(100vh - 54px)"}}>
+        <div className="fade" style={{position:"relative",background:client.id==="wauhaus"?"#f0faf7":client.id==="cosmos"?"#eef3fa":"#f7f6f2",minHeight:"calc(100vh - 54px)"}}>
           {client.id==="wauhaus"&&(
             <div style={{position:"fixed",inset:0,top:54,pointerEvents:"none",zIndex:0,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
               <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/logoWAUHAUS.png"
                 alt="" style={{width:"60%",maxWidth:650,opacity:.12,filter:"saturate(0) brightness(0.3)",userSelect:"none",pointerEvents:"none"}}/>
+            </div>
+          )}
+          {client.id==="cosmos"&&(
+            <div style={{position:"fixed",inset:0,top:54,pointerEvents:"none",zIndex:0,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
+              <img src="https://raw.githubusercontent.com/IndieAgency/planning-indie-agency/main/LOGOCOSMOS.PNG"
+                alt="" style={{width:"50%",maxWidth:550,opacity:.08,filter:"saturate(0) brightness(0.2)",userSelect:"none",pointerEvents:"none"}}/>
             </div>
           )}
           {/* NAVEGADOR MES */}
@@ -1054,6 +1064,18 @@ function App(){
                 <button onClick={next} style={{background:"#00b894",border:"none",borderRadius:12,width:40,height:40,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",transition:"all .2s",boxShadow:"0 4px 12px rgba(0,184,148,.35)"}} onMouseEnter={e=>e.currentTarget.style.background="#00a884"} onMouseLeave={e=>e.currentTarget.style.background="#00b894"}>›</button>
               </div>
             </div>
+          ):client.id==="cosmos"?(
+            <div style={{position:"relative",zIndex:1,padding:"24px 28px 10px",display:"flex",alignItems:"flex-end",justifyContent:"space-between"}}>
+              <div>
+                <div style={{fontSize:11,fontWeight:700,color:"#1a5ca8",letterSpacing:4,textTransform:"uppercase",marginBottom:4}}>Planificación</div>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:52,fontWeight:700,lineHeight:.9,letterSpacing:-2,color:"#0d1f3c"}}>{MON[month]}</div>
+                <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:16,fontWeight:300,color:"#7a9fc8",letterSpacing:2,marginTop:6}}>{year}</div>
+              </div>
+              <div style={{display:"flex",gap:8,paddingBottom:8}}>
+                <button onClick={prev} style={{background:"rgba(26,92,168,.1)",border:"1.5px solid rgba(26,92,168,.25)",borderRadius:12,width:40,height:40,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center",color:"#1a5ca8",transition:"all .2s"}} onMouseEnter={e=>e.currentTarget.style.background="rgba(26,92,168,.2)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(26,92,168,.1)"}>‹</button>
+                <button onClick={next} style={{background:"#1a5ca8",border:"none",borderRadius:12,width:40,height:40,cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",transition:"all .2s",boxShadow:"0 4px 12px rgba(26,92,168,.35)"}} onMouseEnter={e=>e.currentTarget.style.background="#154d90"} onMouseLeave={e=>e.currentTarget.style.background="#1a5ca8"}>›</button>
+              </div>
+            </div>
           ):(
             <div style={{position:"relative",zIndex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:12,padding:"16px 18px 8px"}}>
               <button onClick={prev} style={{background:"#fff",border:"1.5px solid #e0e0e0",borderRadius:7,width:30,height:30,cursor:"pointer",fontSize:13,display:"flex",alignItems:"center",justifyContent:"center"}}>‹</button>
@@ -1063,57 +1085,60 @@ function App(){
           )}
 
           {/* GRID */}
-          <div style={{position:"relative",zIndex:1,padding:client.id==="wauhaus"?"2px 14px 24px":"4px 14px 20px"}}>
+          <div style={{position:"relative",zIndex:1,padding:client.id==="wauhaus"||client.id==="cosmos"?"2px 14px 24px":"4px 14px 20px"}}>
             {/* Separador decorativo Wauhaus */}
             {client.id==="wauhaus"&&<div style={{height:2,background:"linear-gradient(90deg,#00b894,rgba(0,184,148,.1))",borderRadius:2,marginBottom:12}}/>}
-            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:client.id==="wauhaus"?5:3,marginBottom:client.id==="wauhaus"?6:3}}>
-              {DAYS.map(d=><div key={d} style={{textAlign:"center",fontSize:9,fontWeight:700,color:client.id==="wauhaus"?"#00b894":"#aaa",padding:"5px 0",textTransform:"uppercase",letterSpacing:2}}>{d}</div>)}
+            {/* Separador decorativo Cosmos */}
+            {client.id==="cosmos"&&<div style={{height:2,background:"linear-gradient(90deg,#1a5ca8,rgba(26,92,168,.1))",borderRadius:2,marginBottom:12}}/>}
+            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:client.id==="wauhaus"||client.id==="cosmos"?5:3,marginBottom:client.id==="wauhaus"||client.id==="cosmos"?6:3}}>
+              {DAYS.map(d=><div key={d} style={{textAlign:"center",fontSize:9,fontWeight:700,color:client.id==="wauhaus"?"#00b894":client.id==="cosmos"?"#1a5ca8":"#aaa",padding:"5px 0",textTransform:"uppercase",letterSpacing:2}}>{d}</div>)}
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:client.id==="wauhaus"?5:3}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:client.id==="wauhaus"||client.id==="cosmos"?5:3}}>
               {Array.from({length:fd}).map((_,i)=><div key={"e"+i} style={{minHeight:100}}/>)}
               {Array.from({length:dim}).map((_,i)=>{
                 const day=i+1,dp=pfDay(day),isT=today.getDate()===day&&today.getMonth()===month&&today.getFullYear()===year;
                 const isWau=client.id==="wauhaus";
+                const isCos=client.id==="cosmos";
                 return(
                   <div key={day} style={{
                     minHeight:100,
-                    background:isT&&isWau?"rgba(0,184,148,.08)":"#fff",
-                    borderRadius:isWau?14:8,
+                    background:isT&&isWau?"rgba(0,184,148,.08)":isT&&isCos?"rgba(26,92,168,.08)":"#fff",
+                    borderRadius:isWau||isCos?14:8,
                     padding:"8px 7px",
-                    border:isT?(isWau?"2px solid #00b894":"2px solid #1a1a1a"):(isWau?"1.5px solid rgba(0,184,148,.15)":"1.5px solid #ebebeb"),
+                    border:isT?(isWau?"2px solid #00b894":isCos?"2px solid #1a5ca8":"2px solid #1a1a1a"):(isWau?"1.5px solid rgba(0,184,148,.15)":isCos?"1.5px solid rgba(26,92,168,.15)":"1.5px solid #ebebeb"),
                     display:"flex",flexDirection:"column",gap:3,
                     transition:"all .18s",
-                    boxShadow:isWau?"0 2px 8px rgba(0,184,148,.04)":"none"
+                    boxShadow:isWau?"0 2px 8px rgba(0,184,148,.04)":isCos?"0 2px 8px rgba(26,92,168,.04)":"none"
                   }}
-                  onMouseEnter={e=>{e.currentTarget.style.boxShadow=isWau?"0 6px 20px rgba(0,184,148,.18)":"0 4px 12px rgba(0,0,0,.08)";if(isWau)e.currentTarget.style.borderColor="rgba(0,184,148,.4)";}}
-                  onMouseLeave={e=>{e.currentTarget.style.boxShadow=isWau?"0 2px 8px rgba(0,184,148,.04)":"none";if(isWau&&!isT)e.currentTarget.style.borderColor="rgba(0,184,148,.15)";}}>
+                  onMouseEnter={e=>{e.currentTarget.style.boxShadow=isWau?"0 6px 20px rgba(0,184,148,.18)":isCos?"0 6px 20px rgba(26,92,168,.18)":"0 4px 12px rgba(0,0,0,.08)";if(isWau)e.currentTarget.style.borderColor="rgba(0,184,148,.4)";if(isCos)e.currentTarget.style.borderColor="rgba(26,92,168,.4)";}}
+                  onMouseLeave={e=>{e.currentTarget.style.boxShadow=isWau?"0 2px 8px rgba(0,184,148,.04)":isCos?"0 2px 8px rgba(26,92,168,.04)":"none";if(isWau&&!isT)e.currentTarget.style.borderColor="rgba(0,184,148,.15)";if(isCos&&!isT)e.currentTarget.style.borderColor="rgba(26,92,168,.15)";}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                       <span style={{
-                        fontSize:isWau?12:10,
-                        fontWeight:isT?700:isWau?500:400,
-                        background:isT?(isWau?"#00b894":"#1a1a1a"):"transparent",
-                        color:isT?"#fff":(isWau?"#1a5244":"#888"),
-                        borderRadius:isWau?6:"50%",
-                        width:isWau?22:17,height:isWau?22:17,
+                        fontSize:isWau||isCos?12:10,
+                        fontWeight:isT?700:isWau||isCos?500:400,
+                        background:isT?(isWau?"#00b894":isCos?"#1a5ca8":"#1a1a1a"):"transparent",
+                        color:isT?"#fff":(isWau?"#1a5244":isCos?"#0d1f3c":"#888"),
+                        borderRadius:isWau||isCos?6:"50%",
+                        width:isWau||isCos?22:17,height:isWau||isCos?22:17,
                         display:"flex",alignItems:"center",justifyContent:"center",
-                        fontFamily:isWau?"'DM Sans',sans-serif":"inherit"
+                        fontFamily:isWau||isCos?"'DM Sans',sans-serif":"inherit"
                       }}>{day}</span>
                       {!isGuest&&<button onClick={()=>openAdd(day)} style={{
                         background:"none",border:"none",cursor:"pointer",
-                        color:isWau?"rgba(0,184,148,.35)":"#ddd",
-                        fontSize:isWau?16:12,lineHeight:1,padding:0,fontWeight:300
+                        color:isWau?"rgba(0,184,148,.35)":isCos?"rgba(26,92,168,.35)":"#ddd",
+                        fontSize:isWau||isCos?16:12,lineHeight:1,padding:0,fontWeight:300
                       }}
-                      onMouseEnter={e=>e.currentTarget.style.color=isWau?"#00b894":"#bbb"}
-                      onMouseLeave={e=>e.currentTarget.style.color=isWau?"rgba(0,184,148,.35)":"#ddd"}>+</button>}
+                      onMouseEnter={e=>e.currentTarget.style.color=isWau?"#00b894":isCos?"#1a5ca8":"#bbb"}
+                      onMouseLeave={e=>e.currentTarget.style.color=isWau?"rgba(0,184,148,.35)":isCos?"rgba(26,92,168,.35)":"#ddd"}>+</button>}
                     </div>
                     {dp.slice(0,3).map(post=>{
                       const pl=PLAT[post.platform],ct=CT.find(c=>c.v===post.ctype),thumb=resolve(post.coverDriveUrl||post.driveUrl);
-                      return<div key={post.id} onClick={()=>setDetail(post)} style={{background:pl.bg,borderLeft:"3px solid "+pl.color,borderRadius:isWau?5:3,padding:"3px 5px",fontSize:8,fontWeight:500,cursor:"pointer",color:"#333",display:"flex",alignItems:"center",gap:2,overflow:"hidden"}}>
+                      return<div key={post.id} onClick={()=>setDetail(post)} style={{background:pl.bg,borderLeft:"3px solid "+pl.color,borderRadius:isWau||isCos?5:3,padding:"3px 5px",fontSize:8,fontWeight:500,cursor:"pointer",color:"#333",display:"flex",alignItems:"center",gap:2,overflow:"hidden"}}>
                         {thumb?<img src={thumb} alt="" style={{width:12,height:12,borderRadius:2,objectFit:"cover",flexShrink:0}} onError={e=>e.target.style.display="none"} crossOrigin="anonymous"/>:<span style={{flexShrink:0,fontSize:8}}>{ct?.i||pl.icon}</span>}
                         <span style={{overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{post.title}</span>
                       </div>;
                     })}
-                    {dp.length>3&&<div style={{fontSize:7,color:isWau?"#00b894":"#bbb",textAlign:"center",fontWeight:700}}>+{dp.length-3} más</div>}
+                    {dp.length>3&&<div style={{fontSize:7,color:isWau?"#00b894":isCos?"#1a5ca8":"#bbb",textAlign:"center",fontWeight:700}}>+{dp.length-3} más</div>}
                   </div>
                 );
               })}
@@ -1121,9 +1146,10 @@ function App(){
           </div>
 
           {/* LEYENDA */}
-          <div style={{position:"relative",zIndex:1,display:"flex",gap:10,padding:client.id==="wauhaus"?"0 28px 28px":"0 18px 20px",flexWrap:"wrap",alignItems:"center"}}>
+          <div style={{position:"relative",zIndex:1,display:"flex",gap:10,padding:client.id==="wauhaus"||client.id==="cosmos"?"0 28px 28px":"0 18px 20px",flexWrap:"wrap",alignItems:"center"}}>
             {client.id==="wauhaus"&&<div style={{width:"100%",height:1,background:"rgba(0,184,148,.1)",marginBottom:4}}/>}
-            {ST_OPT.map(s=><div key={s} style={{display:"flex",alignItems:"center",gap:4,fontSize:9,fontWeight:500,color:client.id==="wauhaus"?"#7ab5a8":"#999"}}>
+            {client.id==="cosmos"&&<div style={{width:"100%",height:1,background:"rgba(26,92,168,.1)",marginBottom:4}}/>}
+            {ST_OPT.map(s=><div key={s} style={{display:"flex",alignItems:"center",gap:4,fontSize:9,fontWeight:500,color:client.id==="wauhaus"?"#7ab5a8":client.id==="cosmos"?"#7a9fc8":"#999"}}>
               <span style={{width:8,height:8,borderRadius:3,background:ST_CLR[s],border:"1px solid rgba(0,0,0,.06)",display:"inline-block",boxShadow:"0 1px 2px rgba(0,0,0,.06)"}}/>
               {s}
             </div>)}

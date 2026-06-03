@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Planificador RRSS · Planning Indie Agency</title>
+  <title>Gestión Indie Agency</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -256,7 +256,7 @@ function LoginScreen({clients,onLogin}){
             onError={e=>{e.target.style.display="none";}}
           />
           <div style={{width:32,height:2,background:"#1a1a1a",borderRadius:2,margin:"0 auto 12px"}}/>
-          <div style={{fontSize:9,color:"#aaa",letterSpacing:3,textTransform:"uppercase",fontWeight:500}}>Planificador de Redes Sociales</div>
+          <div style={{fontSize:9,color:"#aaa",letterSpacing:3,textTransform:"uppercase",fontWeight:500}}>Administración y Gestión de Contenidos</div>
         </div>
 
         {/* Campos */}
@@ -923,7 +923,7 @@ function App(){
   if(!clients)return(
     <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#1a1a1a,#2d2d2d)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:12}}>
       <div style={{fontSize:34}}>📅</div>
-      <div style={{fontFamily:"'Playfair Display',serif",fontSize:19,fontWeight:700,color:"#fff"}}>Planificador RRSS</div>
+      <div style={{fontFamily:"'Playfair Display',serif",fontSize:19,fontWeight:700,color:"#fff"}}>Gestión Indie Agency</div>
       <div style={{fontSize:12,color:"#888"}}>Conectando con la base de datos...</div>
       <div style={{width:36,height:36,borderRadius:"50%",border:"3px solid #333",borderTop:"3px solid #fff",animation:"spin 1s linear infinite"}}/>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
@@ -1025,7 +1025,7 @@ function App(){
           }
           <div>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:700,lineHeight:1,color:client.id==="wauhaus"?"#fff":"#fff"}}>{client.name}</div>
-            <div style={{fontSize:8,color:client.id==="wauhaus"?"#00b894":client.id==="cosmos"?"#6fa3d8":"#666",marginTop:1,fontWeight:client.id==="wauhaus"||client.id==="cosmos"?600:400}}>Planificador RRSS · Planning Indie</div>
+            <div style={{fontSize:8,color:client.id==="wauhaus"?"#00b894":client.id==="cosmos"?"#6fa3d8":"#666",marginTop:1,fontWeight:client.id==="wauhaus"||client.id==="cosmos"?600:400}}>Administración y Gestión de Contenidos</div>
           </div>
           {isGuest&&<span style={{background:"#f0a500",color:"#fff",borderRadius:5,padding:"2px 7px",fontSize:9,fontWeight:700}}>👤 Invitado</span>}
         </div>
@@ -1066,7 +1066,7 @@ function App(){
           {client.id==="wauhaus"?(
             <div style={{position:"relative",zIndex:1,padding:"24px 28px 10px",display:"flex",alignItems:"flex-end",justifyContent:"space-between"}}>
               <div>
-                <div style={{fontSize:11,fontWeight:700,color:"#00b894",letterSpacing:4,textTransform:"uppercase",marginBottom:4}}>Planificación</div>
+                <div style={{fontSize:11,fontWeight:700,color:"#00b894",letterSpacing:4,textTransform:"uppercase",marginBottom:4}}>Gestión Indie Agency</div>
                 <div style={{fontFamily:"'Playfair Display',serif",fontSize:52,fontWeight:700,lineHeight:.9,letterSpacing:-2,color:"#0d2b22"}}>{MON[month]}</div>
                 <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:16,fontWeight:300,color:"#7ab5a8",letterSpacing:2,marginTop:6}}>{year}</div>
               </div>
@@ -1078,7 +1078,7 @@ function App(){
           ):client.id==="cosmos"?(
             <div style={{position:"relative",zIndex:1,padding:"24px 28px 10px",display:"flex",alignItems:"flex-end",justifyContent:"space-between"}}>
               <div>
-                <div style={{fontSize:11,fontWeight:700,color:"#1a5ca8",letterSpacing:4,textTransform:"uppercase",marginBottom:4}}>Planificación</div>
+                <div style={{fontSize:11,fontWeight:700,color:"#1a5ca8",letterSpacing:4,textTransform:"uppercase",marginBottom:4}}>Gestión Indie Agency</div>
                 <div style={{fontFamily:"'Playfair Display',serif",fontSize:52,fontWeight:700,lineHeight:.9,letterSpacing:-2,color:"#0d1f3c"}}>{MON[month]}</div>
                 <div style={{fontFamily:"'DM Sans',sans-serif",fontSize:16,fontWeight:300,color:"#7a9fc8",letterSpacing:2,marginTop:6}}>{year}</div>
               </div>

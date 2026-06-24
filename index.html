@@ -9,16 +9,15 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <!-- SUPABASE SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
   <script>
     window.SB_URL = "https://vxkczsctgsxonxwjrfqe.supabase.co";
     window.SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4a2N6c2N0Z3N4b254d2pyZnFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMTgyMTQsImV4cCI6MjA5MzY5NDIxNH0.EnlToo9xoR8Vr69QvGcXshZx54Apc9TWcvcCFDio0-c";
-    // Inicializacion defensiva: si el CDN de Supabase no cargo, no rompemos toda la pagina.
     try {
       if (window.supabase && window.supabase.createClient) {
         window.sbClient = window.supabase.createClient(window.SB_URL, window.SB_KEY);
       } else {
-        console.error("Supabase SDK no se cargo (CDN bloqueado o caido).");
+        console.error("Supabase SDK no se cargo.");
         window.__SB_LOAD_ERROR = true;
       }
     } catch (e) {
@@ -1194,9 +1193,7 @@ try {
     document.getElementById("root").innerHTML =
       '<div style="max-width:520px;margin:80px auto;font-family:sans-serif;text-align:center;padding:24px">'+
       '<h2 style="color:#bf360c">No se pudo conectar a la base de datos</h2>'+
-      '<p style="color:#555;line-height:1.5">El SDK de Supabase no se cargo. Suele ser por bloqueo del CDN '+
-      '(jsDelivr) en la red, una extension del navegador, o falta de conexion. '+
-      'Proba recargar, desactivar bloqueadores, o abrir en otra red.</p></div>';
+      '<p style="color:#555;line-height:1.5">El SDK de Supabase no se cargo. Proba recargar o revisar tu conexion.</p></div>';
   } else {
     ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   }
@@ -1204,8 +1201,7 @@ try {
   console.error("Error montando la app:", e);
   document.getElementById("root").innerHTML =
     '<div style="max-width:520px;margin:80px auto;font-family:sans-serif;text-align:center;padding:24px">'+
-    '<h2 style="color:#bf360c">Ocurrio un error al iniciar la app</h2>'+
-    '<p style="color:#555">Revisa la consola (F12) para ver el detalle.</p>'+
+    '<h2 style="color:#bf360c">Error al iniciar la app</h2>'+
     '<pre style="text-align:left;background:#f4f4f4;padding:12px;border-radius:8px;overflow:auto;font-size:12px">'+
     (e && e.message ? e.message : String(e))+'</pre></div>';
 }

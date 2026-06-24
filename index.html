@@ -8,16 +8,17 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- SUPABASE SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+  <!-- SUPABASE SDK (UMD) -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
   <script>
     window.SB_URL = "https://vxkczsctgsxonxwjrfqe.supabase.co";
     window.SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4a2N6c2N0Z3N4b254d2pyZnFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMTgyMTQsImV4cCI6MjA5MzY5NDIxNH0.EnlToo9xoR8Vr69QvGcXshZx54Apc9TWcvcCFDio0-c";
     try {
       if (window.supabase && window.supabase.createClient) {
         window.sbClient = window.supabase.createClient(window.SB_URL, window.SB_KEY);
+        console.log("Supabase OK");
       } else {
-        console.error("Supabase SDK no se cargo.");
+        console.error("Supabase SDK no se cargo (window.supabase indefinido).");
         window.__SB_LOAD_ERROR = true;
       }
     } catch (e) {

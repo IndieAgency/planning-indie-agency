@@ -27,6 +27,31 @@
       window.__SB_LOAD_ERROR = true;
     }
   </script>
+  <!-- ── BOT DE AVISOS A ANA (WhatsApp vía CallMeBot) ────────────────────
+       Setup (una sola vez, lo hace ANA desde su celular):
+       1) Ver el número vigente del bot en:
+          https://www.callmebot.com/blog/free-api-whatsapp-messages/
+          (el número cambia cada tanto, NO usar uno viejo)
+       2) Ana agrega ese número a sus contactos y le manda por WhatsApp:
+          "I allow callmebot to send me messages"
+       3) El bot le responde con su APIKEY → pegarla abajo en WA_APIKEY.
+       4) En WA_PHONE va el número de WhatsApp de ANA con código de país,
+          sin espacios. Ej: +5493414123456
+       Mientras diga "PEGAR..." el bot queda desactivado y la app funciona igual. -->
+  <script>
+    window.WA_PHONE = "+5493464506585";
+    window.WA_APIKEY = "7831396";
+    window.notifyAna = function (texto) {
+      try {
+        if (!window.WA_APIKEY || window.WA_APIKEY.indexOf("PEGAR") === 0) return;
+        var url = "https://api.callmebot.com/whatsapp.php" +
+          "?phone=" + encodeURIComponent(window.WA_PHONE) +
+          "&apikey=" + encodeURIComponent(window.WA_APIKEY) +
+          "&text=" + encodeURIComponent(texto);
+        fetch(url, { method: "GET", mode: "no-cors" }).catch(function () {});
+      } catch (e) { /* nunca romper la app por una notificación */ }
+    };
+  </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'DM Sans',sans-serif;background:#f7f6f2;color:#1a1a1a}
@@ -3971,6 +3996,12 @@ function App() {
     instagram: "",
     linkedin: ""
   };
+  // Avisa a Ana por Telegram cuando el que actúa NO es el admin
+  const avisarAna = accion => {
+    if (!session || session.id === "admin") return;
+    const quien = isGuest ? `${client?.name || session.id} (invitado)` : `@${client?.username || session.id}`;
+    window.notifyAna(`🔔 Gestión Indie Agency\n${quien} ${accion}\n🕐 ${new Date().toLocaleString("es-AR")}`);
+  };
   if (!clients) return /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: "100vh",
@@ -4069,6 +4100,7 @@ function App() {
       id: modal.editId || Date.now().toString()
     };
     await upsertPost(client.id, postData);
+    avisarAna(`${modal.editId ? "modificó" : "creó"} la publicación "${postData.title}" (${ds})`);
     const updated = await loadPosts(client.id);
     setPosts(updated);
     setSaving(false);
@@ -4077,7 +4109,9 @@ function App() {
   const del = async id => {
     if (isGuest) return;
     setSaving(true);
+    const pDel = posts.find(x => x.id === String(id));
     await deletePost(id);
+    avisarAna(`eliminó la publicación "${pDel?.title || id}"`);
     setPosts(p => p.filter(x => x.id !== String(id)));
     setSaving(false);
     setDetail(null);
@@ -4089,6 +4123,12 @@ function App() {
       ...post,
       notes
     });
+    if (notes.length > (post.notes || []).length) {
+      const n = notes[notes.length - 1];
+      avisarAna(`comentó en la publicación "${post.title}":\n“${n.text}”`);
+    } else {
+      avisarAna(`eliminó un comentario en la publicación "${post.title}"`);
+    }
     setPosts(p => p.map(x => x.id === String(postId) ? {
       ...x,
       notes
@@ -4100,11 +4140,14 @@ function App() {
   };
   const saveScript = async s => {
     setSaving(true);
+    const esEdicion = !!s.id;
     const scriptData = {
       ...s,
       id: s.id || Date.now().toString()
     };
     await upsertScript(client.id, scriptData);
+    const apr = APROV_ST[scriptData.approvalStatus]?.l || scriptData.approvalStatus;
+    avisarAna(`${esEdicion ? "modificó" : "creó"} el guión "${scriptData.title || "sin título"}" · ${apr}`);
     const updated = await loadScripts(client.id);
     setScripts(updated);
     setSaving(false);
@@ -4114,7 +4157,9 @@ function App() {
     if (isGuest) return;
     if (!window.confirm("¿Eliminar este guión?")) return;
     setSaving(true);
+    const sDel = scripts.find(x => x.id === String(id));
     await deleteScript(id);
+    avisarAna(`eliminó el guión "${sDel?.title || id}"`);
     setScripts(s => s.filter(x => x.id !== String(id)));
     setSaving(false);
   };
@@ -4125,6 +4170,12 @@ function App() {
       ...script,
       notes
     });
+    if (notes.length > (script.notes || []).length) {
+      const n = notes[notes.length - 1];
+      avisarAna(`comentó en el guión "${script.title || "sin título"}":\n“${n.text}”`);
+    } else {
+      avisarAna(`eliminó un comentario en el guión "${script.title || "sin título"}"`);
+    }
     setScripts(s => s.map(x => x.id === String(scriptId) ? {
       ...x,
       notes
@@ -4140,6 +4191,7 @@ function App() {
       accounts
     };
     await upsertClient(updated);
+    avisarAna(`modificó las cuentas vinculadas (Instagram/LinkedIn)`);
     setClients(cs => cs.map(c => c.id === client.id ? updated : c));
     setShowAcc(false);
   };

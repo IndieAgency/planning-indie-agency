@@ -27,29 +27,38 @@
       window.__SB_LOAD_ERROR = true;
     }
   </script>
-  <!-- ── BOT DE AVISOS A ANA (WhatsApp vía CallMeBot) ────────────────────
-       Setup (una sola vez, lo hace ANA desde su celular):
+  <!-- ── BOT DE AVISOS (WhatsApp vía CallMeBot) ─────────────────────────
+       Cada persona que quiera recibir avisos se activa UNA vez desde su celular:
        1) Ver el número vigente del bot en:
           https://www.callmebot.com/blog/free-api-whatsapp-messages/
-          (el número cambia cada tanto, NO usar uno viejo)
-       2) Ana agrega ese número a sus contactos y le manda por WhatsApp:
+          (el número cambia cada tanto; si dejan de llegar, repetir este paso)
+       2) Agendar ese número y mandarle por WhatsApp:
           "I allow callmebot to send me messages"
-       3) El bot le responde con su APIKEY → pegarla abajo en WA_APIKEY.
-       4) En WA_PHONE va el número de WhatsApp de ANA con código de país,
-          sin espacios. Ej: +5493414123456
-       Mientras diga "PEGAR..." el bot queda desactivado y la app funciona igual. -->
+       3) El bot responde con una APIKEY propia de ese teléfono.
+       4) Agregar una línea abajo con { nombre, phone (con +549...), apikey }.
+       Cada apikey sirve SOLO para el teléfono que la generó. -->
   <script>
-    window.WA_PHONE = "+5493464506585";
-    window.WA_APIKEY = "7831396";
+    window.WA_DESTINATARIOS = [
+      { nombre: "Ana",   phone: "+5493464506585", apikey: "7831396" },
+      { nombre: "Marco", phone: "+5493464442061", apikey: "2655697" }
+    ];
     window.notifyAna = function (texto) {
-      try {
-        if (!window.WA_APIKEY || window.WA_APIKEY.indexOf("PEGAR") === 0) return;
-        var url = "https://api.callmebot.com/whatsapp.php" +
-          "?phone=" + encodeURIComponent(window.WA_PHONE) +
-          "&apikey=" + encodeURIComponent(window.WA_APIKEY) +
-          "&text=" + encodeURIComponent(texto);
-        fetch(url, { method: "GET", mode: "no-cors" }).catch(function () {});
-      } catch (e) { /* nunca romper la app por una notificación */ }
+      (window.WA_DESTINATARIOS || []).forEach(function (d) {
+        try {
+          if (!d.phone || !d.apikey) return;
+          var url = "https://api.callmebot.com/whatsapp.php" +
+            "?phone=" + encodeURIComponent(d.phone) +
+            "&apikey=" + encodeURIComponent(d.apikey) +
+            "&text=" + encodeURIComponent(texto);
+          console.log("[Bot WhatsApp] enviando a " + d.nombre);
+          // Pedido tipo "imagen": igual que abrir la URL en el navegador, sin CORS ni referer.
+          // CallMeBot responde HTML, así que siempre dispara onerror: eso es normal.
+          var img = new Image();
+          img.referrerPolicy = "no-referrer";
+          img.onload = img.onerror = function () { console.log("[Bot WhatsApp] pedido entregado a CallMeBot: " + d.nombre); };
+          img.src = url;
+        } catch (e) { console.warn("[Bot WhatsApp] error", e); }
+      });
     };
   </script>
   <style>
@@ -3996,9 +4005,10 @@ function App() {
     instagram: "",
     linkedin: ""
   };
-  // Avisa a Ana por Telegram cuando el que actúa NO es el admin
+  // Avisa por WhatsApp (Ana y Marco) cuando el que actúa NO es el admin
   const avisarAna = accion => {
-    if (!session || session.id === "admin") return;
+    console.log("[Bot WhatsApp] acción detectada:", accion, "| sesión:", session?.id, session?.role);
+    if (!session || session.id === "admin") { console.log("[Bot WhatsApp] sin aviso: acción del admin"); return; }
     const quien = isGuest ? `${client?.name || session.id} (invitado)` : `@${client?.username || session.id}`;
     window.notifyAna(`🔔 Gestión Indie Agency\n${quien} ${accion}\n🕐 ${new Date().toLocaleString("es-AR")}`);
   };
